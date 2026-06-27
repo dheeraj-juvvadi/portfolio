@@ -14,7 +14,7 @@
     return n;
   };
   const canTouch = () => window.matchMedia("(pointer: coarse)").matches;
-  const haptic = (pattern = 8) => {
+  const haptic = (pattern = 14) => {
     if (canTouch() && "vibrate" in navigator) navigator.vibrate(pattern);
   };
 
@@ -231,7 +231,11 @@
       (e) => {
         const target = e.target.closest("a, button, .stack-list li");
         if (!target) return;
-        haptic(target.classList.contains("nav-toggle") ? 12 : 7);
+        if (target.classList.contains("nav-toggle") || target.classList.contains("btn-primary")) {
+          haptic([18, 12, 18]);
+          return;
+        }
+        haptic(target.classList.contains("contact-link") ? [14, 10, 14] : 14);
       },
       { passive: true }
     );
