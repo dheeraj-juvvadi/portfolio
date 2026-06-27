@@ -98,8 +98,6 @@
       a.innerHTML = `${l.icon}<span>${l.label}</span>`;
       cl.appendChild(a);
     });
-
-    $("#year").textContent = new Date().getFullYear();
   }
 
   /* ---------- Single reveal observer (gentle, staggered) ---------- */
