@@ -17,14 +17,6 @@
   <link rel="stylesheet" href="assets/css/style.css" />
 </head>
 <body>
-  <svg class="glass-filters" aria-hidden="true" focusable="false">
-    <filter id="navGlassDisplace">
-      <feTurbulence type="fractalNoise" baseFrequency="0.012 0.08" numOctaves="2" seed="7" result="noise" />
-      <feGaussianBlur in="noise" stdDeviation="0.6" result="softNoise" />
-      <feDisplacementMap in="SourceGraphic" in2="softNoise" scale="18" xChannelSelector="R" yChannelSelector="G" />
-    </filter>
-  </svg>
-
   <!-- Background -->
   <div class="bg" aria-hidden="true">
     <canvas id="starfield"></canvas>
@@ -33,18 +25,19 @@
   </div>
 
   <!-- Nav -->
-  <header class="nav liquid" id="nav">
+  <header class="nav" id="nav">
     <a href="#top" class="nav-brand">
-      <span class="logo-dot"></span>
-      <span class="logo-text">Dheeraj</span>
+      <span class="logo-mark" aria-hidden="true">DC</span>
+      <span class="logo-text">Dheeraj Chandra</span>
     </a>
     <nav class="nav-links" aria-label="Primary">
       <a href="#work">Work</a>
       <a href="#about">About</a>
       <a href="#stack">Stack</a>
+      <a href="#experience">Experience</a>
       <a href="#contact">Contact</a>
     </nav>
-    <a href="#contact" class="nav-cta glass-soft">Get in touch</a>
+    <a href="#contact" class="nav-cta">Get in touch</a>
     <button class="nav-toggle" id="navToggle" aria-label="Menu"><span></span></button>
   </header>
 
@@ -82,7 +75,7 @@
       </div>
       <div class="about-body">
         <div class="about-text" id="aboutText"></div>
-        <aside class="about-glass glass liquid reveal">
+        <aside class="about-glass glass reveal">
           <div class="about-stat">
             <span class="about-stat-num">SRM</span>
             <span class="about-stat-label">Computer Science<br>Information Technology</span>
@@ -103,7 +96,7 @@
         <span class="kicker">03 — Stack</span>
         <h2 class="section-title">Tools I<br><em>reach for.</em></h2>
       </div>
-      <div class="stack-grid glass liquid" id="stackGrid"></div>
+      <div class="stack-grid glass" id="stackGrid"></div>
     </section>
 
     <!-- ===== Experience ===== -->
@@ -117,7 +110,7 @@
 
     <!-- ===== Contact ===== -->
     <section class="section contact" id="contact">
-      <div class="contact-card glass liquid reveal">
+      <div class="contact-card glass reveal">
         <span class="kicker">05 — Contact</span>
         <h2 class="contact-title">Let's build<br><em>something good.</em></h2>
         <p class="contact-sub" id="contactAvail"></p>
@@ -140,7 +133,6 @@
 
   <script src="assets/js/data.js"></script>
   <script src="assets/js/starfield.js"></script>
-  <script src="assets/js/liquidglass.js"></script>
   <script src="assets/js/main.js"></script>
 </body>
 </html>

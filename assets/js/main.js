@@ -54,11 +54,6 @@
             ${pr.live ? `<a href="${pr.live}" target="_blank" rel="noopener" title="Live" aria-label="${pr.name} live">${ICON.external}</a>` : ""}
           </div>
         </div>`;
-      // smooth scroll-to on click (without blocking link clicks)
-      item.addEventListener("click", (e) => {
-        if (e.target.closest("a")) return;
-        item.scrollIntoView({ behavior: "smooth", block: "center" });
-      });
       wl.appendChild(item);
     });
 
@@ -140,73 +135,9 @@
   /* ---------- Nav: scroll state + active section + mobile menu ---------- */
   function setupNav() {
     const nav = $("#nav");
-    let targetProgress = 0;
-    let currentProgress = 0;
-    let ticking = false;
-    let refractionScene = null;
-
-    const stripCloneIds = (node) => {
-      if (node.nodeType !== 1) return;
-      node.removeAttribute("id");
-      node.removeAttribute("aria-labelledby");
-      node.removeAttribute("aria-describedby");
-      [...node.children].forEach(stripCloneIds);
-    };
-
-    const setupNavRefraction = () => {
-      const layer = el("div", "nav-refract");
-      layer.setAttribute("aria-hidden", "true");
-      refractionScene = el("div", "nav-refract-scene");
-
-      [...document.querySelectorAll("main, footer, .signature")].forEach((node) => {
-        const clone = node.cloneNode(true);
-        stripCloneIds(clone);
-        clone.querySelectorAll("a, button").forEach((interactive) => {
-          interactive.removeAttribute("href");
-          interactive.removeAttribute("target");
-          interactive.removeAttribute("rel");
-          interactive.setAttribute("tabindex", "-1");
-        });
-        clone.querySelectorAll(".reveal").forEach((item) => item.classList.add("in"));
-        refractionScene.appendChild(clone);
-      });
-
-      layer.appendChild(refractionScene);
-      nav.prepend(layer);
-    };
-
-    const syncNavRefraction = () => {
-      if (!refractionScene) return;
-      const rect = nav.getBoundingClientRect();
-      nav.style.setProperty("--glass-x", `${-rect.left}px`);
-      nav.style.setProperty("--glass-y", `${-(window.scrollY + rect.top)}px`);
-      nav.style.setProperty("--glass-doc-height", `${document.documentElement.scrollHeight}px`);
-    };
-
-    const setNavProgress = () => {
-      targetProgress = Math.min(1, Math.max(0, window.scrollY / 96));
-      syncNavRefraction();
-      if (!ticking) {
-        ticking = true;
-        requestAnimationFrame(updateNavProgress);
-      }
-    };
-
-    const updateNavProgress = () => {
-      currentProgress += (targetProgress - currentProgress) * 0.22;
-      if (Math.abs(targetProgress - currentProgress) < 0.002) currentProgress = targetProgress;
-      nav.style.setProperty("--nav-progress", currentProgress.toFixed(3));
-      nav.classList.toggle("docked", currentProgress > 0.88);
-      syncNavRefraction();
-
-      if (currentProgress !== targetProgress) requestAnimationFrame(updateNavProgress);
-      else ticking = false;
-    };
-
-    setupNavRefraction();
-    setNavProgress();
-    window.addEventListener("scroll", setNavProgress, { passive: true });
-    window.addEventListener("resize", setNavProgress);
+    const onScroll = () => nav.classList.toggle("docked", window.scrollY > 24);
+    onScroll();
+    window.addEventListener("scroll", onScroll, { passive: true });
 
     // active link
     const links = [...document.querySelectorAll(".nav-links a")];

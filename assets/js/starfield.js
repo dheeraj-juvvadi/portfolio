@@ -51,10 +51,10 @@
 
   function seedSky() {
     const rand = mulberry32(SKY_SEED);
-    const radius = Math.hypot(W, H) * 0.72 + 160;
+    const radius = Math.hypot(W, H) * 0.82 + 220;
     const centerX = W * 0.5;
     const centerY = H * 0.52;
-    const baseCount = Math.min(Math.floor((W * H) / 7000), 300);
+    const baseCount = Math.min(Math.floor((W * H) / 3600), 560);
     stars = [];
     links = [];
 
@@ -64,8 +64,8 @@
       stars.push({
         x: centerX + Math.cos(a) * d,
         y: centerY + Math.sin(a) * d,
-        r: 0.25 + rand() * 1.15,
-        baseA: 0.22 + rand() * 0.55,
+        r: 0.25 + rand() * 1.25,
+        baseA: 0.26 + rand() * 0.58,
         twk: 0.0015 + rand() * 0.005,
         phase: rand() * Math.PI * 2,
         warm: rand() > 0.82,
@@ -78,15 +78,18 @@
       [[0.58, 0.30], [0.64, 0.22], [0.72, 0.25], [0.78, 0.35], [0.69, 0.42], [0.61, 0.39]],
       [[0.22, 0.66], [0.30, 0.58], [0.40, 0.62], [0.48, 0.72], [0.36, 0.77]],
       [[0.72, 0.66], [0.80, 0.60], [0.87, 0.68], [0.82, 0.78], [0.73, 0.76]],
+      [[0.10, 0.48], [0.18, 0.42], [0.28, 0.46], [0.32, 0.54], [0.22, 0.58], [0.14, 0.54]],
+      [[0.52, 0.78], [0.58, 0.70], [0.66, 0.74], [0.70, 0.84], [0.61, 0.88]],
+      [[0.82, 0.18], [0.90, 0.22], [0.94, 0.32], [0.86, 0.38], [0.78, 0.31]],
     ];
 
     clusters.forEach((cluster) => {
       const nodes = cluster.map(([nx, ny], idx) => {
         const star = {
-          x: nx * W + (rand() - 0.5) * 22,
-          y: ny * H + (rand() - 0.5) * 22,
-          r: idx === 0 ? 1.75 : 1.1 + rand() * 0.55,
-          baseA: 0.62 + rand() * 0.24,
+          x: nx * W + (rand() - 0.5) * 18,
+          y: ny * H + (rand() - 0.5) * 18,
+          r: idx === 0 ? 1.9 : 1.15 + rand() * 0.65,
+          baseA: 0.66 + rand() * 0.26,
           twk: 0.001 + rand() * 0.002,
           phase: rand() * Math.PI * 2,
           warm: true,
@@ -97,12 +100,12 @@
       });
 
       for (let i = 0; i < nodes.length - 1; i++) {
-        links.push({ a: nodes[i], b: nodes[i + 1], strength: 0.18 });
+        links.push({ a: nodes[i], b: nodes[i + 1], strength: 0.22 });
       }
-      if (nodes.length > 4) links.push({ a: nodes[1], b: nodes[nodes.length - 1], strength: 0.09 });
+      if (nodes.length > 4) links.push({ a: nodes[1], b: nodes[nodes.length - 1], strength: 0.12 });
     });
 
-    const dustCount = Math.min(Math.floor((W * H) / 36000), 42);
+    const dustCount = Math.min(Math.floor((W * H) / 22000), 72);
     for (let i = 0; i < dustCount; i++) {
       const a = rand() * Math.PI * 2;
       const d = Math.sqrt(rand()) * radius;
@@ -110,7 +113,7 @@
         x: centerX + Math.cos(a) * d,
         y: centerY + Math.sin(a) * d,
         r: 0.7 + rand() * 1.8,
-        baseA: 0.06 + rand() * 0.16,
+        baseA: 0.08 + rand() * 0.18,
         twk: 0.0008 + rand() * 0.002,
         phase: rand() * Math.PI * 2,
         warm: true,
@@ -141,12 +144,12 @@
     root.style.setProperty("--sky-rotation", `${rotation}rad`);
     ctx.clearRect(0, 0, W, H);
 
-    ctx.lineWidth = 0.65;
+    ctx.lineWidth = 0.75;
     links.forEach((link) => {
       const a = rotatePoint(link.a);
       const b = rotatePoint(link.b);
       const distance = Math.hypot(a.x - b.x, a.y - b.y);
-      const alpha = Math.max(0.045, link.strength - distance / 2200);
+      const alpha = Math.max(0.06, link.strength - distance / 2400);
       ctx.strokeStyle = `rgba(216,182,118,${alpha})`;
       ctx.beginPath();
       ctx.moveTo(a.x, a.y);
