@@ -227,7 +227,7 @@
 
   function setupTactileFeedback() {
     document.addEventListener(
-      "pointerdown",
+      "click",
       (e) => {
         const target = e.target.closest("a, button, .stack-list li");
         if (!target) return;
